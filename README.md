@@ -2,7 +2,7 @@
 <img loading="lazy" src="http://img.shields.io/static/v1?label=STATUS&message=EM PROCESSO&color=yellow&style=for-the-badge"/>
 </p>
 
-# Scrape dos Dados Anuncios de Casas e Predição dos valores de Vendas.
+# Scrape dos Dados de Anuncios de Casas e Predição dos valores de Vendas.
 
 
 ## Descrição
