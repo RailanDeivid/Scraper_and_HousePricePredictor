@@ -46,13 +46,13 @@ DOWNLOAD_DELAY = 1
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "HousePriceScraper.middlewares.HousepricescraperSpiderMiddleware": 543,
+#    "HousePriceScraper.middlewares.HousePriceScraperSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "HousePriceScraper.middlewares.HousepricescraperDownloaderMiddleware": 543,
+#    "HousePriceScraper.middlewares.HousePriceScraperDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,9 +63,14 @@ DOWNLOAD_DELAY = 1
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "HousePriceScraper.pipelines.HousepricescraperPipeline": 300,
-#}
+# Ativar pipeline de salvamento no PostgreSQL
+ITEM_PIPELINES = {
+    'HousePriceScraper.pipelines.PostgreSQLPipeline': 300,
+}
+
+
+
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

@@ -1,14 +1,13 @@
 import scrapy
-from datetime import datetime
 import re
 
-class HousepricescrapermlSpider(scrapy.Spider):
+class HousepricescraperSpider(scrapy.Spider):
     # Nome do spider
-    name = "HousePriceScraperML"
+    name = "HousePriceScraper"
     
     # Lista de estados brasileiros (UF) para coletar os dados
-    list_UF = [
-                'acre','alagoas', 'amazonas', 'bahia', 'ceara', 'distrito-federal', 'espirito-santo', 'goias', 'maranhao'
+    list_estado = [
+                'acre','alagoas', 'amazonas', 'bahia', 'ceara', 'distrito-federal', 'espirito-santo', 'goias', 'maranhao',
                 'mato-grosso', 'mato-grosso-do-sul', 'minas-gerais', 'para', 'parana', 'piaui', 'paraiba', 'pernambuco', 
                 'rio-de-janeiro', 'rio-grande-do-sul', 'rondonia', 'santa-catariana', 'sao-paulo', 'sergipe', 'tocantins']
     
@@ -17,8 +16,8 @@ class HousepricescrapermlSpider(scrapy.Spider):
 
     def __init__(self):
         # Constrói as URLs para cada estado e adiciona à lista de start_urls
-        for uf in self.list_UF:
-            url = f"https://imoveis.mercadolivre.com.br/casas/venda/{uf}/"
+        for state in self.list_estado:
+            url = f"https://imoveis.mercadolivre.com.br/casas/venda/{state}/"
             self.start_urls.append(url)
     
     # Contador de páginas   para controle da paginação
@@ -42,8 +41,7 @@ class HousepricescrapermlSpider(scrapy.Spider):
                     link,  # Segue o link para a página detalhada do anúncio
                     self.parse_anuncio,  # Chama a função parse_anuncio para processar a página detalhada
                     meta={
-                        'date_colect': datetime.now().date(),  # Data de coleta
-                        'uf': response.url.split('/')[-2],  # Extrai a UF da URL
+                        'state': response.url.split('/')[-2],  # Extrai a UF da URL
                         'title': title.strip(),  # Título do anúncio (removendo espaços extras)
                         'location': location  # Localização do imóvel
                     }
@@ -59,8 +57,7 @@ class HousepricescrapermlSpider(scrapy.Spider):
     def parse_anuncio(self, response):
         # Extrai detalhes básicos do anúncio
         source = response.url  # URL da página do anúncio
-        data_coleta = response.meta['date_colect']  # Data de coleta passada via meta
-        uf = response.meta['uf']  # UF extraída do meta
+        state = response.meta['state']  # UF extraída do meta
         title = response.meta['title']  # Título extraído do meta
         location = response.meta['location']  # Localização extraída do meta
         
@@ -81,13 +78,12 @@ class HousepricescrapermlSpider(scrapy.Spider):
 
         # Armazena os dados em um dicionário e os retorna
         yield {
-            'data_coleta': data_coleta,  # Data de coleta
             'title': title,  # Título do anúncio
             'price': price,  # Preço do imóvel
             'bedrooms': bedrooms,  # Número de quartos
             'bathrooms': bathrooms,  # Número de banheiros
             'sqm': sqm,  # Metragem total
             'location': location,  # Localização
-            'uf': uf,  # Estado (UF)
+            'state': state,  # Estado 
             'source': source  # URL do anúncio
         }
