@@ -10,7 +10,7 @@ load_dotenv()
 
 # Carregar as variáveis de ambiente
 host = os.getenv("DB_HOST_PROD")
-port = "5432"
+port = os.getenv("DB_PORT_PROD")
 dbname = os.getenv("DB_NAME_PROD")
 user = os.getenv("DB_USER_PROD")
 password = os.getenv("DB_PASS_PROD")
