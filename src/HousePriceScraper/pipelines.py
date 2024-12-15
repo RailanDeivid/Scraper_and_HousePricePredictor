@@ -21,7 +21,7 @@ class PostgreSQLPipeline:
         database_url = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
         self.engine = create_engine(database_url)
         self.Session = sessionmaker(bind=self.engine)
-        self.session = None
+
 
         # Criação da tabela usando SQLAlchemy
         self.metadata = MetaData()
