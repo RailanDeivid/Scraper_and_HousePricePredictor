@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import psycopg2
-from psycopg2 import sql
+
 
 # Carregar as variáveis do arquivo .env
 load_dotenv()
