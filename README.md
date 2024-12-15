@@ -21,17 +21,20 @@
 
 ## 3. Metodologia
 
-**Ferramentas Utilizadas:**
-* Linguagem: ``Python 3.12.1``
-* Bibliotecas
-  - ``Streamlit``
-  - ``Pandas``
-  - ``Numpy``
-  - ``Matplotlib``
-  - ``Seaborn``
-  - ``Regex``
-  - ``Scrapy``
-  - ``scikit-learn``
+**Ferramentas Utilizadas até o momento**
+
+ **Linguagem**
+- `Python 3.12.1`
+
+ **Bibliotecas**
+- `Scrapy`: Para coleta e extração de dados da web.  
+ 
+
+ **Banco de Dados**
+- `PostgreSQL`: Para armazenamento e consulta de dados estruturados.
+  
+**Outras Ferramentas**
+- `Docker`: Para containerização e gerenciamento do ambiente de desenvolvimento e produção.  
 
 ## 📁 Acesso aos do arquivos projeto
 
