@@ -1,79 +1,86 @@
 import os
 from dotenv import load_dotenv
-import psycopg2
+from sqlalchemy import create_engine, Column, Integer, String, Text, Table, MetaData
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import SQLAlchemyError
 
-
-# Carregar as variáveis do arquivo .env
+# Carregar variáveis do arquivo .env
 load_dotenv()
+
+# Carregar as variáveis de ambiente
+host = os.getenv("DB_HOST_PROD")
+port = os.getenv("DB_PORT_PROD")
+dbname = os.getenv("DB_NAME_PROD")
+user = os.getenv("DB_USER_PROD")
+password = os.getenv("DB_PASS_PROD")
 
 class PostgreSQLPipeline:
     def __init__(self):
-        # Conexão com o banco de dados usando variáveis de ambiente
-        self.conn = psycopg2.connect(
-            host=os.getenv("DB_HOST_PROD"),
-            port=os.getenv("DB_PORT_PROD"),
-            dbname=os.getenv("DB_NAME_PROD"),
-            user=os.getenv("DB_USER_PROD"),
-            password=os.getenv("DB_PASS_PROD")
-        )
-        self.cur = self.conn.cursor()
-        self.create_table()
+        # Configurar conexão com o banco de dados
+        database_url = f"postgresql://{user}:{password}@{host}:{port}/{dbname}"
+        self.engine = create_engine(database_url)
+        self.Session = sessionmaker(bind=self.engine)
+        self.session = None
 
-    def create_table(self):
-        # Cria a tabela se ela não existir
-        self.cur.execute("""
-        CREATE TABLE IF NOT EXISTS house_prices (
-            id SERIAL PRIMARY KEY,
-            title TEXT,
-            price VARCHAR(20),
-            bedrooms TEXT,
-            bathrooms TEXT,
-            sqm TEXT,
-            location TEXT,
-            state VARCHAR(20),
-            source TEXT
+        # Criação da tabela usando SQLAlchemy
+        self.metadata = MetaData()
+        self.house_prices_table = Table(
+            'house_prices', self.metadata,
+            Column('id', Integer, primary_key=True),
+            Column('title', Text),
+            Column('price', String(20)),
+            Column('bedrooms', Text),
+            Column('bathrooms', Text),
+            Column('sqm', Text),
+            Column('location', Text),
+            Column('state', String(20)),
+            Column('source', Text)
         )
-        """)
-        self.conn.commit()
+        self.metadata.create_all(self.engine)
+
+    def open_spider(self, spider):
+        # Abrir sessão ao iniciar o spider
+        self.session = self.Session()
 
     def process_item(self, item, spider):
         try:
-            # Inserir dados no banco de dados
-            self.cur.execute(
-                """
-                INSERT INTO house_prices (
-                    title, price, bedrooms, bathrooms, sqm, location, state, source
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-                """,
-                (
-                    item.get('title'), item.get('price'),
-                    item.get('bedrooms'), item.get('bathrooms'), item.get('sqm'),
-                    item.get('location'), item.get('state'), item.get('source')
-                )
+            # Inserir item na tabela
+            insert_stmt = self.house_prices_table.insert().values(
+                title=item.get('title'),
+                price=item.get('price'),
+                bedrooms=item.get('bedrooms'),
+                bathrooms=item.get('bathrooms'),
+                sqm=item.get('sqm'),
+                location=item.get('location'),
+                state=item.get('state'),
+                source=item.get('source')
             )
-            self.conn.commit()
-        except psycopg2.Error as e:
+            self.session.execute(insert_stmt)
+            self.session.commit()
+        except SQLAlchemyError as e:
             spider.logger.error(f"Erro ao inserir no banco de dados: {e}")
+            self.session.rollback()
         return item
 
     def remove_duplicates(self):
         try:
-            # Remove registros duplicados com base em todas as colunas exceto o id
-            self.cur.execute("""
-            DELETE FROM house_prices
-            WHERE id NOT IN (
-                SELECT MIN(id)
-                FROM house_prices
-                GROUP BY title, price, bedrooms, bathrooms, sqm, location, state, source
-            )
-            """)
-            self.conn.commit()
-        except psycopg2.Error as e:
+            # Remover registros duplicados com base em todas as colunas exceto o id
+            with self.engine.connect() as conn:
+                conn.execute(
+                    text("""
+                    DELETE FROM house_prices
+                    WHERE id NOT IN (
+                        SELECT MIN(id)
+                        FROM house_prices
+                        GROUP BY title, price, bedrooms, bathrooms, sqm, location, state, source
+                    )
+                    """))
+        except SQLAlchemyError as e:
             print(f"Erro ao remover duplicados: {e}")
 
     def close_spider(self, spider):
         # Remover duplicados antes de fechar a conexão
         self.remove_duplicates()
-        # Fechar o cursor e a conexão ao final
-        self.cur.close()
-        self.conn.close()
+        # Fechar a sessão ao final
+        if self.session:
+            self.session.close()
