@@ -14,7 +14,7 @@
 ## 2. Etapas do projeto:
 
 - [x] Scrape dos dados
-- [ ] Armazenamento em um banco de dados (PostgreSQL)
+- [x] Armazenamento em um banco de dados (PostgreSQL)
 - [ ] EDA
 - [ ] Modelagem
 - [ ] Deploy Streamlit
