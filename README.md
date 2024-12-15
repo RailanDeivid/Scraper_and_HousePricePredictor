@@ -5,12 +5,13 @@
 # Scrape dos Dados de Anuncios de Casas e Predição dos Valores de Vendas.
 
 
-## Descrição
+## 1. Introdução
 
-Este projeto realiza web scraping de anúncios de casas no Mercado Livre e prevê valores de vendas usando um modelo de machine learning. O projeto é dividido em várias partes, incluindo coleta de dados, transformação de dados, análise exploratória e predição de preços.
+**Objetivo do Projeto:** O projeto tem como objetivo realizar web scraping de anúncios de imóveis disponíveis no Mercado Livre, armazenar esses dados em um banco de dados PostgreSQL e, posteriormente, utilizá-los para análises e previsão de valores de venda por meio de um modelo de machine learning.
 
+**Contexto:** Este projeto foi desenvolvido como uma demonstração prática de extração de dados da web utilizando a biblioteca Scrapy. Após a extração, os dados dos anúncios de imóveis passam por processos de transformação e são armazenados em um banco de dados PostgreSQL. 
 
-Etapas do projeto:
+## 2. Etapas do projeto:
 
 - [x] Scrape dos dados
 - [ ] Armazenamento em um banco de dados (PostgreSQL)
@@ -18,26 +19,29 @@ Etapas do projeto:
 - [ ] Modelagem
 - [ ] Deploy Streamlit
 
-## Principais Tecnologias Utilizadas
+## 3. Metodologia
 
-- ``Python 3.12.1``
-- ``SQLite3``
-- ``Streamlit``
-- ``Pandas``
-- ``Numpy``
-- ``Matplotlib``
-- ``Seaborn``
-- ``Regex``
-- ``Scrapy``
-- ``scikit-learn``
+**Ferramentas Utilizadas:**
+* Linguagem: ``Python 3.12.1``
+* Bibliotecas
+  - ``Streamlit``
+  - ``Pandas``
+  - ``Numpy``
+  - ``Matplotlib``
+  - ``Seaborn``
+  - ``Regex``
+  - ``Scrapy``
+  - ``scikit-learn``
 
-## 📁 Acesso aos do  arquivos projeto
+## 📁 Acesso aos do arquivos projeto
 
 * Você pode acessar os arquivos do projeto:
 
-Scrape dos dados: [HousePriceScraperML.py](https://github.com/RailanDeivid/Scraper_and_HousePricePredictor/blob/main/src/HousePriceScraper/spiders/HousePriceScraperML.py)
+  Scrape dos dados: [HousePriceScraper.py](https://github.com/RailanDeivid/Scraper_and_HousePricePredictor/blob/main/src/HousePriceScraper/spiders/HousePriceScraper.py)
+  
+  Pipeline: [pipelines.py](https://github.com/RailanDeivid/Scraper_and_HousePricePredictor/blob/main/src/HousePriceScraper/pipelines.py)
 
-Dados Brutos: [data_house_price.jsonl](https://github.com/RailanDeivid/Scraper_and_HousePricePredictor/tree/main/data/raw)
+
 
 
 
