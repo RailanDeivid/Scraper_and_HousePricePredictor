@@ -13,4 +13,5 @@ __pycache__/
 # Ignorar arquivos compilados do Python
 *.pyc
 *.pyo
+scripts.txt
 
