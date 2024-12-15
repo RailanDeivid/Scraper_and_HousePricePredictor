@@ -31,8 +31,10 @@
  
 
  **Banco de Dados**
-- `PostgreSQL`: Para armazenamento e consulta de dados estruturados.  
-
+- `PostgreSQL`: Para armazenamento e consulta de dados estruturados.
+  
+**Outras Ferramentas**
+- `Docker`: Para containerização e gerenciamento do ambiente de desenvolvimento e produção.  
 
 ## 📁 Acesso aos do arquivos projeto
 
