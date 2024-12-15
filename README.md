@@ -13,7 +13,7 @@ Este projeto realiza web scraping de an√∫ncios de casas no Mercado Livre e prev√
 Etapas do projeto:
 
 - [x] Scrape dos dados
-- [ ] Tratamento e armazenamento em um banco de dados
+- [ ] Armazenamento em um banco de dados (PostgreSQL)
 - [ ] EDA
 - [ ] Modelagem
 - [ ] Deploy Streamlit
