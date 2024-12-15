@@ -4,6 +4,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Text, Table, Meta
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 
+
 # Carregar variáveis do arquivo .env
 load_dotenv()
 
@@ -67,7 +68,7 @@ class PostgreSQLPipeline:
             # Remover registros duplicados com base em todas as colunas exceto o id
             with self.engine.connect() as conn:
                 conn.execute(
-                    text("""
+                    Text("""
                     DELETE FROM house_prices
                     WHERE id NOT IN (
                         SELECT MIN(id)
