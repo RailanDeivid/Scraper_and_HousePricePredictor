@@ -62,7 +62,7 @@ COPY src /app/src
 EXPOSE 5432
 
 # Cria o arquivo cron para rodar o comando a cada 5 dias às 10h da manhã
-RUN echo "0 10 */1 * * cd /app/src && scrapy crawl HousePriceScraper" > /etc/cron.d/scrapy-cron
+RUN echo "5 11 * * * cd /app/src && scrapy crawl HousePriceScraper" > /etc/cron.d/scrapy-cron
 
 # Dá permissões para o arquivo de cron
 RUN chmod 0644 /etc/cron.d/scrapy-cron
