@@ -1,0 +1,2 @@
+docker build -t houseprices .
+docker run -d --env-file .env --name houseprices_container houseprices
