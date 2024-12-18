@@ -33,7 +33,7 @@ class HousepricescraperSpider(scrapy.Spider):
         for anuncio in anuncios:
             link = anuncio.css('h2.poly-box.poly-component__title a::attr(href)').get()  # Link para o anúncio detalhado
             title = anuncio.css('h2.poly-box.poly-component__title a::text').get()  # Título do anúncio
-            location = response.css('span.poly-component__location::text').get()  # Localização do imóvel
+            # location = response.css('span.poly-component__location::text').get()  # Localização do imóvel
 
             # Verifica se o link e o título existem antes de continuar
             if link and title:
@@ -43,7 +43,7 @@ class HousepricescraperSpider(scrapy.Spider):
                     meta={
                         'state': response.url.split('/')[-2],  # Extrai a UF da URL
                         'title': title.strip(),  # Título do anúncio (removendo espaços extras)
-                        'location': location  # Localização do imóvel
+                        # 'location': location  # Localização do imóvel
                     }
                 )
 
@@ -59,7 +59,7 @@ class HousepricescraperSpider(scrapy.Spider):
         source = response.url  # URL da página do anúncio
         state = response.meta['state']  # UF extraída do meta
         title = response.meta['title']  # Título extraído do meta
-        location = response.meta['location']  # Localização extraída do meta
+        # location = response.meta['location']  # Localização extraída do meta
         
         # Extrai o preço do imóvel
         price = response.css('span.andes-money-amount__fraction::text').get()
@@ -75,6 +75,8 @@ class HousepricescraperSpider(scrapy.Spider):
         # Extrai a metragem total (em m²)
         sqm = response.xpath("//span[contains(text(), 'm² totais')]/text()").get()
         sqm = re.search(r"\d+", sqm).group() if sqm else None  # Extrai o número da metragem se encontrado
+        
+        location = response.xpath('//*[@id="location"]/div/div[1]/div/p/text()').get()
 
         # Armazena os dados em um dicionário e os retorna
         yield {
