@@ -58,13 +58,13 @@ class PostgreSQLPipeline:
 
     def remove_duplicates(self):
         try:
-            # Remove registros duplicados com base em todas as colunas exceto o id
+            # Remove registros duplicados com base em todas as colunas 
             self.cur.execute("""
             DELETE FROM house_prices
             WHERE id NOT IN (
                 SELECT MIN(id)
                 FROM house_prices
-                GROUP BY title, price, bedrooms, bathrooms, sqm, location, state, source
+                GROUP BY title, price, bedrooms, bathrooms, sqm
             )
             """)
             self.conn.commit()
