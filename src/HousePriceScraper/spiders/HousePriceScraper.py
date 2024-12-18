@@ -76,7 +76,7 @@ class HousepricescraperSpider(scrapy.Spider):
         sqm = response.xpath("//span[contains(text(), 'm² totais')]/text()").get()
         sqm = re.search(r"\d+", sqm).group() if sqm else None  # Extrai o número da metragem se encontrado
         
-        location = response.xpath('//*[@id="location"]/div/div[1]/div/p/text()').get()
+        # location = response.xpath('//*[@id="location"]/div/div[1]/div/p/text()').get()
 
         # Armazena os dados em um dicionário e os retorna
         yield {
@@ -85,7 +85,7 @@ class HousepricescraperSpider(scrapy.Spider):
             'bedrooms': bedrooms,  # Número de quartos
             'bathrooms': bathrooms,  # Número de banheiros
             'sqm': sqm,  # Metragem total
-            'location': location,  # Localização
+            # 'location': location,  # Localização
             'state': state,  # Estado 
             'source': source  # URL do anúncio
         }

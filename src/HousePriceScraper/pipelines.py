@@ -29,7 +29,6 @@ class PostgreSQLPipeline:
             bedrooms TEXT,
             bathrooms TEXT,
             sqm TEXT,
-            location TEXT,
             state VARCHAR(20),
             source TEXT
         )
@@ -42,13 +41,13 @@ class PostgreSQLPipeline:
             self.cur.execute(
                 """
                 INSERT INTO house_prices (
-                    title, price, bedrooms, bathrooms, sqm, location, state, source
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    title, price, bedrooms, bathrooms, sqm, state, source
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """,
                 (
                     item.get('title'), item.get('price'),
                     item.get('bedrooms'), item.get('bathrooms'), item.get('sqm'),
-                    item.get('location'), item.get('state'), item.get('source')
+                    item.get('state'), item.get('source')
                 )
             )
             self.conn.commit()
@@ -64,7 +63,7 @@ class PostgreSQLPipeline:
             WHERE id NOT IN (
                 SELECT MIN(id)
                 FROM house_prices
-                GROUP BY title, price, bedrooms, bathrooms, sqm
+                GROUP BY title, price, bedrooms, bathrooms, sqm, state, source
             )
             """)
             self.conn.commit()
