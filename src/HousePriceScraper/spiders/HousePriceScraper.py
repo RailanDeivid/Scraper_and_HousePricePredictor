@@ -10,6 +10,7 @@ class HousepricescraperSpider(scrapy.Spider):
                 'acre','alagoas', 'amazonas', 'bahia', 'ceara', 'distrito-federal', 'espirito-santo', 'goias', 'maranhao',
                 'mato-grosso', 'mato-grosso-do-sul', 'minas-gerais', 'para', 'parana', 'piaui', 'paraiba', 'pernambuco', 
                 'rio-de-janeiro', 'rio-grande-do-sul', 'rondonia', 'santa-catariana', 'sao-paulo', 'sergipe', 'tocantins']
+
     
     # Inicializa uma lista vazia para armazenar as URLs iniciais
     start_urls = []
@@ -31,8 +32,8 @@ class HousepricescraperSpider(scrapy.Spider):
 
         # Para cada anúncio, extrai informações básicas
         for anuncio in anuncios:
-            link = anuncio.css('h2.poly-box.poly-component__title a::attr(href)').get()  # Link para o anúncio detalhado
-            title = anuncio.css('h2.poly-box.poly-component__title a::text').get()  # Título do anúncio
+            link = anuncio.css('h2.poly-component__title-wrapper a::attr(href)').get()  # Link para o anúncio detalhado
+            title = anuncio.css('h2.poly-component__title-wrapper a::text').get()  # Título do anúncio
             # location = response.css('span.poly-component__location::text').get()  # Localização do imóvel
 
             # Verifica se o link e o título existem antes de continuar
